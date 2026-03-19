@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste 1 - Gestão de Pneus</title>
+    <link rel="stylesheet" href="/src/css/styles.css">
+</head>
+<body>
+    <header class="cabecalho">
+        <div class="cabecalho-conteudo">
+            <h1>Faça a gestão dos seus produtos, prazos e especificações</h1>
+        </div>
+    </header>
+    <main class="catalogo">
+        <div class="catalogo-hd">
+        <img src="/src/img/icons8-pneu-50.png" alt="icone de pneu" class="catalogo-icone">
+        <h2>Catálogo de Pneus</h2>
+        <button id="btnNovoPneu" class="btn-novo-pneu">Novo Pneu</button>
+        </div>
+        
+<table class="tabela-pneus">
+    <thead>
+        <tr>
+            <th id="th-id">ID</th>
+            <th id="th-produto">Produto</th>
+            <th id="th-medida">Medida</th>
+            <th id="th-data">Data</th>
+            <th id="th-status">Status</th>
+            <th id="th-acoes">Ações</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+    </main>
+    <div id="modalCadastro" class="modal">
+        <div class="modal-conteudo">
+            <span id="fecharModal" class="fechar">&times;</span>
+            <h2>Cadastro de Pneu</h2>
+            <form id="formCadastro">
+                <label for="marca">Marca:</label>
+                <input type="text" id="marca" name="marca" required>
+            
+                <label for="modelo">Modelo:</label>
+                <input type="text" id="modelo" name="modelo" required>               
+                
+                <label for="medida">Medida:</label>
+                <input type="text" id="medida" name="medida" required>
+                
+                <label for="data">Data:</label>
+                <input type="date" id="data" name="data" required>
+                
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="">Selecione</option>
+                    <option value="Ativo">Ativo</option>
+                    <option value="Inativo">Inativo</option>
+                </select>
+                
+                <button type="submit" class="btn-salvar">Salvar</button>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="/src/js/script.js"></script>
+</html>
