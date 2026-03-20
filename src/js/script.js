@@ -88,6 +88,8 @@ function renderPneus(pneus = []) {
     return;
   }
 
+// criar as linhas da tabela com os dados dos pneus, formatando a data e o status, e adicionando os botões de excluir e editar
+  
     tbody.innerHTML = pneus.map(p => {
       const top = (p.marca || p.modelo) ? `${p.marca ?? ''}` : (p.produto ?? '');
       const bottom = (p.marca || p.modelo) ? `${p.modelo ?? ''}` : '';
@@ -109,7 +111,7 @@ function renderPneus(pneus = []) {
       </tr>`
     }).join('');
 }
-
+// função para carregar os pneus da API e renderizar na tabela
 function carregarPneus() {
   fetch(API)
     .then(r => r.ok ? r.json() : Promise.reject(r.status))
@@ -119,7 +121,7 @@ function carregarPneus() {
       tbody.innerHTML = '<tr><td colspan="6" style="color:#c0392b;text-align:center;">Erro ao carregar dados.</td></tr>';
     });
 }
-
+// função para salvar o pneu, tanto para novo cadastro quanto para edição, enviando os dados para a API e atualizando a tabela
 function salvarPneu(e) {
   e.preventDefault();
   const payload = {
@@ -133,6 +135,8 @@ function salvarPneu(e) {
   const editId = form.dataset.editId;
   const method = editId ? 'PUT' : 'POST';
   const url = editId ? `${API}/${editId}` : API;
+
+// enviar os dados para a API usando fetch
 
   fetch(url, {
     method,
@@ -150,19 +154,20 @@ function salvarPneu(e) {
     });
 }
 
+// eventos dos botões e do formulário
 
 btnNovo && btnNovo.addEventListener('click', () => mostrarModal('new'));
 fechar && fechar.addEventListener('click', esconderModal);
 modal && modal.addEventListener('click', (ev) => { if (ev.target === modal) esconderModal(); });
 form && form.addEventListener('submit', salvarPneu);
 
-
-
 tbody && tbody.addEventListener('click', (ev) => {
   const btnExcluir = ev.target.closest && ev.target.closest('.btn-excluir');
   if (btnExcluir) {
     const id = btnExcluir.dataset.id;
     if (!id) return;
+
+// enviar a requisição para excluir o pneu usando fetch e atualizar a tabela após a exclusão
 
   fetch(`${API}/${id}`, { method: 'DELETE' })
     .then(r => r.ok ? r.json() : Promise.reject(r.status))
@@ -172,6 +177,9 @@ tbody && tbody.addEventListener('click', (ev) => {
       alert('Erro ao excluir pneu.');
     });
   }
+
+// evento para o botão de editar, buscar os dados do pneu selecionado e preencher o formulário do modal para edição
+
   const btnEditar = ev.target.closest && ev.target.closest('.btn-editar');
   if (btnEditar) {
     const id = btnEditar.dataset.id;
