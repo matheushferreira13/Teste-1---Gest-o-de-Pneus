@@ -1,448 +1,134 @@
-:root {
-    --primario: #1e54c0;
-    --dark: #3b4a60;
-    --gray: #a0a7b8;
-    --light: #f7f8fb;
-    --white: #ffffff;
-}
 
-* {
-    box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste 1 - Gestão de Pneus</title>
+    <link rel="stylesheet" href="/src/css/styles.css">
+    <script src="/src/js/script.js" defer></script>
+</head>
+<body>
+    <header class="cabecalho">
+        <div class="cabecalho-conteudo">
+            <h1>Faça a gestão dos seus produtos, prazos e especificações</h1>
+            <p class="subtitle">Organize, controle e acompanhe cada detalhe do seu estoque de forma simples e eficiente.</p>
+        </div>
+    </header>
+    <main class="catalogo">
+        <div class="catalogo-hd">
+        <img src="/src/img/icons8-pneu-50.png" alt="icone de pneu" class="catalogo-icone">
+        <h2>Catálogo de Pneus</h2>
+        <div class="btn-catalogo"><button id="btnNovoPneu" class="btn-novo-pneu">Novo Pneu</button></div>
+        </div>
+        
+<table class="tabela-pneus">
+    <thead>
+        <tr>
+            <th id="th-id">ID</th>
+            <th id="th-produto">Produto</th>
+            <th id="th-medida">Medida</th>
+            <th id="th-data">Data</th>
+            <th id="th-status">Status</th>
+            <th id="th-acoes">Ações</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+    </main>
 
-body {
-    margin: 0;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--light);
-    color: #2b2e36;
-}
+    <footer class="rodape">
+        <strong>Technolog</strong> &mdash; Catálogo de Pneus &copy; 2025
+    </footer>
 
-.cabecalho {
-    background: linear-gradient(90deg,var(--primario),#163f90);
-    color: var(--white);
-    padding: 20px 24px;
-    text-align: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 20;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
-}
+    <div id="modalConfirmacao" class="modal">
+        <div class="modal-conteudo modal-confirmacao-conteudo">
+            <span id="fecharConfirmacao" class="fechar">&times;</span>
+            <h2 id="confirmacaoTitulo">Confirmar</h2>
+            <p id="confirmacaoMensagem"></p>
+            <div class="confirmacao-acoes">
+                <button id="btnConfirmar" class="btn-confirmacao btn-confirmar">Confirmar</button>
+                <button id="btnCancelarConfirmacao" class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
 
-.cabecalho-conteudo {
-    max-width: 1200px;
-    margin: 0 auto;
-}
+    <div id="modalCadastro" class="modal">
+        <div class="modal-conteudo">
+            <span id="fecharModal" class="fechar">&times;</span>
+            <h2>Cadastro de Pneu</h2>
+            <form id="formCadastro">
+                <label for="marca">Marca:</label>
+                <input type="text" id="marca" name="marca" required>
+            
+                <label for="modelo">Modelo:</label>
+                <input type="text" id="modelo" name="modelo" required>               
+                
+                <label for="medida">Medida:</label>
+                <input type="text" id="medida" name="medida" required>
+                
+                <label for="data">Data:</label>
+                <input type="date" id="data" name="data" required>
+                
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="">Selecione</option>
+                    <option value="Ativo">Ativo</option>
+                    <option value="Inativo">Inativo</option>
+                </select>
 
-.cabecalho-conteudo h1 {
-        margin: 0;
-        font-size: 1.25rem;
-        line-height: 1.2;
-        font-weight: 700;
-        letter-spacing: -0.2px;
-}
+                <label for="foto">Imagem do pneu:</label>
+                <input type="file" id="foto" name="foto" accept="image/*">
+                <small class="input-ajuda">Opcional: selecione uma imagem do computador.</small>
+                
+                <button type="submit" class="btn-salvar">Salvar</button>
+            </form>
+        </div>
+    </div>
 
-.cabecalho-conteudo .subtitle {
-        margin: 6px auto 0;
-        max-width: 980px;
-        color: rgba(255,255,255,0.95);
-        font-size: 0.95rem;
-        font-weight: 500;
-        opacity: 0.95;
-        line-height: 1.3;
-}
+    <div id="modalDetalhesProduto" class="modal modal-detalhes">
+        <div class="modal-conteudo">
+            <span id="fecharDetalhesProduto" class="fechar">&times;</span>
 
-.catalogo {
-    
-    max-width: 1200px;
-    margin: 150px auto 30px;
-    padding: 20px;
-    background: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 5px 16px rgba(32, 40, 58, 0.08);
-}
+            <div class="detalhes-grid">
+                <div class="detalhe-imagem-wrap">
+                    <img id="detalheFotoProduto" class="detalhe-imagem" src="" alt="Imagem do pneu">
+                    <div id="detalheSemImagem" class="detalhe-sem-imagem">Sem imagem</div>
+                </div>
 
-.catalogo h2 {
-    margin: 1px 0 16px;
-    color: var(--dark);
-    font-size: 1.5rem;
-    text-align: left;
-}
+                <div class="detalhe-info">
+                    <div class="info-grid">
+                        <div class="col">
+                            <div class="campo">
+                                <span class="label">ID</span>
+                                <span id="detalheId" class="valor">-</span>
+                            </div>
+                            <div class="campo">
+                                <span class="label">Produto</span>
+                                <span id="detalheProduto" class="valor">-</span>
+                            </div>
+                            <div class="campo">
+                                <span class="label">Medida</span>
+                                <span id="detalheMedida" class="valor">-</span>
+                            </div>
+                        </div>
 
-.catalogo li {
-    margin-bottom: 10px;
-    color: var(--dark);
-    list-style: disc inside;
-}
+                        <div class="col">
+                            <div class="campo">
+                                <span class="label">Data</span>
+                                <span id="detalheData" class="valor">-</span>
+                            </div>
+                            <div class="campo">
+                                <span class="label">Status</span>
+                                <span id="detalheStatus" class="valor">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-.catalogo-hd {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 20px;
-    gap: 20px;
-    margin-top: 5px;
-}
+</body>
+</html>
 
-.btn-catalogo {
-    margin-left: auto;
-}
-
-.btn-novo-pneu {
-    background-color: var(--primario);
-    color: var(--white);
-    border: 0;
-    border-radius: 10px;
-    padding: 10px 16px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    margin-bottom: 16px;
-}
-
-.btn-novo-pneu:hover {
-    background-color: #163f90;
-    transform: translateY(-2px);
-}
-
-.tabela-pneus {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 10px;
-    font-size: 0.95rem;
-    background-color: var(--white);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 6px 18px rgba(32, 40, 58, 0.04);
-    border: 1px solid #e6ecf5;
-}
-
-.tabela-pneus th,
-.tabela-pneus td {
-    padding: 12px 14px;
-    border-bottom: 1px solid #edf1f7;
-    text-align: left;
-    color: var(--dark);
-    vertical-align: middle;
-}
-
-.tabela-pneus th {
-    background-color: #f6f8fc;
-    color: #2b3240;
-    font-weight: 700;
-    border-bottom: 1px solid #dde6f2;
-    text-transform: none;
-    font-size: 0.9rem;
-    text-align: left;
-}
-
-.tabela-pneus tbody tr {
-    background-color: var(--white);
-    transition: background-color 120ms ease, transform 120ms ease;
-    text-align: left;
-}
-
-.tabela-pneus tbody tr:nth-child(even) {
-    background-color: #fbfcff;
-    text-align: left;
-}
-
-.tabela-pneus tbody tr:hover {
-    background-color: #f2f4fa;
-    transform: translateY(-1px);
-}
-
-.tabela-pneus tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.tabela-pneus th:first-child,
-.tabela-pneus td:first-child {
-    text-align: left;
-}
-.tabela-pneus td.numeric {
-    text-align: left;
-    font-variant-numeric: tabular-nums;
-}
-
-/* Center table content and use fixed layout for consistent columns */
-.tabela-pneus {
-    table-layout: fixed;
-}
-.tabela-pneus th,
-.tabela-pneus td {
-    text-align: center;
-    vertical-align: middle;
-}
-.tabela-pneus th#th-id, .tabela-pneus td[headers="th-id"] { width: 80px; }
-.tabela-pneus th#th-produto, .tabela-pneus td[headers="th-produto"] { width: 34%; }
-.tabela-pneus th#th-medida, .tabela-pneus td[headers="th-medida"] { width: 12%; }
-.tabela-pneus th#th-data, .tabela-pneus td[headers="th-data"] { width: 18%; }
-.tabela-pneus th#th-status, .tabela-pneus td[headers="th-status"] { width: 14%; }
-.tabela-pneus th#th-acoes, .tabela-pneus td[headers="th-acoes"] { width: 10%; }
-
-/* Ensure product name lines truncate nicely and remain centered */
-.produto-top, .produto-bottom {
-    display: block;
-    text-align: center;
-    overflow-wrap: anywhere;
-    max-width: 100%;
-}
-
-
-.btn-acao {
-    background-color: #4f5f7a;
-    color: var(--white);
-    border: none;
-    padding: 6px 10px;
-    margin-right: 6px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.85rem;
-}
-
-.btn-acao:hover {
-    background-color: #3c4c64;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    justify-content: center;
-    align-items: center;
-    padding: 24px;
-    transition: opacity 180ms ease;
-}
-
-.modal.ativo {
-    display: flex;
-    opacity: 1;
-}
-
-.modal-conteudo {
-    background: linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);
-    padding: 18px 18px 14px;
-    border-radius: 12px;
-    width: 100%;
-    max-width: 540px;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(14,30,50,0.12);
-    transform: translateY(-8px) scale(0.99);
-    opacity: 0;
-    transition: transform 180ms cubic-bezier(.2,.9,.3,1), opacity 180ms ease;
-}
-
-.modal.ativo .modal-conteudo {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-}
-
-.modal-conteudo h2 {
-    margin-top: 0;
-    margin-bottom: 8px;
-    font-size: 1.15rem;
-    color: #213043;
-}
-
-.modal-conteudo form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.modal-conteudo input,
-.modal-conteudo select {
-    padding: 10px;
-    border: 1px solid #e0e6ef;
-    border-radius: 10px;
-    background: #fafcff;
-}
-
-.btn-salvar {
-        background-color: var(--primario);
-        color: var(--white);
-        border: 0;
-        border-radius: 10px;
-        padding: 10px 16px;
-        cursor: pointer;
-        font-weight: 600;
-        transition: transform 140ms ease, box-shadow 140ms ease;
-}
-
-.fechar {
-        cursor: pointer;
-        font-size: 18px;
-        color: var(--dark);
-        position: absolute;
-        right: 12px;
-        top: 10px;
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 6px;
-}
-
-.fechar:hover {
-        background: rgba(0,0,0,0.06);
-        color: #000;
-}
-
-.modal-conteudo .form-actions {
-    display:flex;
-    justify-content:flex-end;
-    gap:8px;
-    margin-top:6px;
-}
-
-.btn-salvar:focus, .btn-acao:focus, .btn-excluir:focus, .btn-editar:focus {
-    outline: 3px solid rgba(30,84,192,0.14);
-    outline-offset: 2px;
-}
-
-.btn-salvar:hover, .btn-acao:hover, .btn-excluir:hover, .btn-editar:hover {
-    transform: translateY(-2px);
-}
-
-.btn-excluir {
-    background-color: #aa6763;
-    color: var(--white);
-    border: none;
-    padding: 6px 10px;
-    margin-right: 6px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.85rem;
-}
-
-.btn-editar {
-    background-color: #4f5f7a;
-    color: var(--white);
-    border: none;
-    padding: 6px 10px;
-    margin-right: 6px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.85rem;
-}
-
-.produto-cell {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-    text-align: left;
-    cursor: pointer;
-}
-.produto-top {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #213043;
-}
-.produto-bottom {
-    font-size: 0.85rem;
-    color: var(--gray);
-}
-
-/* Center product and status columns */
-.tabela-pneus td[headers="th-produto"] {
-    text-align: left;
-    vertical-align: top;
-}
-.tabela-pneus td[headers="th-status"] {
-    text-align: center;
-    vertical-align: middle;
-}
-.tabela-pneus td[headers="th-acoes"] {
-    text-align: center;
-}
-
-.status-badge {
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 0.85rem;
-    min-width: 88px;
-    text-align: center;
-}
-.status-ativo {
-    background: #e6f9f0;
-    color: #157f3d;
-    box-shadow: inset 0 -2px 0 rgba(21,127,61,0.06);
-}
-.status-inativo {
-    background: #fff5f5;
-    color: #c0392b;
-    box-shadow: inset 0 -2px 0 rgba(192,57,43,0.05);
-}
-
-.btn-excluir, .btn-editar {
-    background: transparent;
-    border: none;
-    padding: 6px;
-    border-radius: 8px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-.btn-excluir img, .btn-editar img { width: 18px; height: 18px; display:block; }
-.btn-excluir:hover, .btn-editar:hover { background: rgba(0,0,0,0.04); }
-.btn-excluir:focus, .btn-editar:focus { outline: 3px solid rgba(30,84,192,0.12); outline-offset: 2px; }
-
-.modal-detalhes .modal-conteudo {
-    max-width: 880px;
-    pointer-events: auto;
-}
-.detalhes-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: stretch;
-}
-.detalhe-imagem-wrap {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f6f8fc;
-    border-radius: 10px;
-    padding: 10px;
-}
-.detalhe-imagem {
-    width: 100%;
-    height: 360px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(33,48,67,0.06);
-}
-
-.detalhe-info {
-    flex: 1 1 48%;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    color: var(--dark);
-    padding-left: 10px;
-}
-
-.info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px 28px;
-    align-items: start;
-}
-.col { display:flex; flex-direction: column; gap: 12px; }
-.campo { background: #fbfdff; border: 1px solid #eef3fa; padding: 12px 14px; border-radius: 10px; display:flex; flex-direction:column; gap:6px; }
-.label { font-size: 0.75rem; color: var(--gray); font-weight:600; text-transform:uppercase; }
-.valor { font-size: 1.05rem; color: #1f344a; font-weight:700; }
-
-.detalhe-info p { margin: 0; }
